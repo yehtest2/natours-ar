@@ -3,6 +3,8 @@ const path = require('path');
 
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
+
 // const helmet = require('helmet');
 
 const mongoSanitize = require('express-mongo-sanitize');
@@ -35,6 +37,7 @@ app.use(hpp({ whitelist: ['price'] }));
 app.use(express.static(`${__dirname}/public`));
 app.use(cookieParser());
 app.use(cors());
+app.use(compression());
 // const corsOptions = {
 //   origin: '*',
 //   credentials: true, //access-control-allow-credentials:true
