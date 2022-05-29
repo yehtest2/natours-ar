@@ -4,6 +4,7 @@ import { dispalyMap } from './mapbox';
 import { login, logout } from './login';
 import { updateData, updateSettings } from './updateData';
 import { bookTour } from './scripe';
+import { showAlert } from './alert';
 
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
@@ -63,4 +64,11 @@ if (bookBtn) {
     console.log(tourId);
     bookTour(tourId);
   });
+}
+const alertm = document.querySelector('body').dataset.alert;
+console.log(alertm);
+console.log('123');
+if (alertm) {
+  console.log('123');
+  showAlert('success', alertm);
 }

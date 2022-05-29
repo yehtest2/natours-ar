@@ -22,12 +22,19 @@ const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const userRouter = require('./routes/userRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 
 const app = express();
 app.set('view engine', 'pug');
 app.set('view options', path.join(__dirname), 'views');
 // app.use(helmet());
 app.use(morgan('dev'));
+app.post(
+  '/checkmy',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
+
 app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extend: true, limit: '16kb' }));
 
@@ -43,7 +50,6 @@ app.use(compression());
 //   credentials: true, //access-control-allow-credentials:true
 //   optionSuccessStatus: 200
 // };
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   console.log('fast');

@@ -12,6 +12,12 @@ exports.getOverview = catchAsync(async (req, res) => {
     tours
   });
 });
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  console.log(alert);
+  if (alert === 'booking') res.locals.alert = `fkkfffk`;
+  next();
+};
 exports.getTour = async (req, res, next) => {
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
