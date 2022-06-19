@@ -1322,3 +1322,9 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+.reviewchange {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  justify-items: center;
+}

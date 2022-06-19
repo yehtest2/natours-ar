@@ -19,6 +19,9 @@ const DB = process.env.DATABASE.replace(
   process.env.DATA_PASSWORD
 );
 // console.log(DB);
+/**
+ * 連結資料庫
+ */
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -32,4 +35,3 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`app is running ${port}`);
 });
-// console.log(server);

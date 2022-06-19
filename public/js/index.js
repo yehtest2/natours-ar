@@ -2,17 +2,19 @@
 import '@babel/polyfill';
 import { dispalyMap } from './mapbox';
 import { login, logout } from './login';
+import { data, Signup } from './signup';
 import { updateData, updateSettings } from './updateData';
 import { bookTour } from './scripe';
 import { showAlert } from './alert';
 
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
+const SignForm = document.querySelector('.form--sign');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const updatefrom = document.querySelector('.form-user-data');
 const userpasswordfrom = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
-
+console.log(SignForm);
 if (mapbox) {
   const locations = JSON.parse(
     document.getElementById('map').dataset.locations
@@ -26,6 +28,18 @@ if (loginForm) {
     const password = document.getElementById('password').value;
     console.log(email);
     login(email, password);
+  });
+}
+if (SignForm) {
+  SignForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const role = document.getElementById('role').value;
+    const password = document.getElementById('password').value;
+    const PasswordConfrim = document.getElementById('PasswordConfrim').value;
+    console.log(name, email, role, password, PasswordConfrim);
+    Signup(name, email, role, password, PasswordConfrim);
   });
 }
 if (logOutBtn) logOutBtn.addEventListener('click', logout);

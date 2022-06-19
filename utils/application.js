@@ -10,6 +10,7 @@ class APIFeatures {
     //過濾
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach(el => delete queryObj[el]);
+    console.log(queryObj);
     // const query = Tour.find(queryObj);
     // console.log(req.query);
     // console.log(queryObj);

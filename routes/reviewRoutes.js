@@ -13,6 +13,7 @@ router
   .post(
     authController.restricTo('user'),
     reviewController.set,
+    reviewController.identify,
     reviewController.createReview
   );
 router

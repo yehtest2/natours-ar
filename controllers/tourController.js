@@ -6,13 +6,22 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const handlerFactory = require('./../controllers/handlerFactory');
 // const AppError = require('../utils/appError');
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * 初始化設定
+ */
 exports.aliasTopTours = (req, res, next) => {
-  req.query.limit = '15';
+  req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
   req.query.fields = 'name,price,duration';
   next();
 };
+/**
+ * 上傳文件設計
+ */
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
@@ -21,14 +30,21 @@ const multerFilter = (req, file, cb) => {
     cb(new AppError('New', 400), false);
   }
 };
+
 const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter
 });
+/**
+ * 上傳文件
+ */
 exports.uploadTourImages = upload.fields([
   { name: 'imageCover', maxCount: 1 },
   { name: 'images', maxCount: 3 }
 ]);
+/**
+ * 上傳圖片
+ */
 exports.resizeTourImages = async (req, res, next) => {
   console.log(req.files);
   if (!req.files.imageCover || !req.files.images) return next();
@@ -54,6 +70,7 @@ exports.resizeTourImages = async (req, res, next) => {
   console.log(req.file.filename);
   next();
 };
+
 exports.getTours = handlerFactory.getOne(Tour);
 exports.getAllTours = handlerFactory.getAll(Tour);
 exports.createTour = handlerFactory.createOne(Tour);
@@ -61,6 +78,9 @@ exports.updateTour = handlerFactory.updateOne(Tour);
 exports.deleteTour = handlerFactory.deleteOne(Tour);
 ///tours-within/:distance/center/:latlng/unit/:unit
 ///tours-within/233/center/-12,33/unit/mi
+/**
+ * 得到範圍內的資料
+ */
 exports.getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
@@ -80,9 +100,11 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
   });
   console.log(tours);
   res.status(200).json({
+    lenght: tours.length,
     tours
   });
 });
+
 exports.getDistances = catchAsync(async (req, res, next) => {
   const { latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
@@ -135,6 +157,7 @@ exports.getTourstatus = catchAsync(async (req, res, next) => {
     data: stats
   });
 });
+
 exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1;
   const plan = await Tour.aggregate([

@@ -22,6 +22,10 @@ const bookingSchema = new mongoose.Schema({
   paid: {
     type: Boolean,
     default: true
+  },
+  Done: {
+    type: Boolean,
+    default: false
   }
 });
 bookingSchema.pre(/^find/, function(next) {

@@ -1,10 +1,23 @@
 const Review = require('./../model/reviewModel');
+const Book = require('./../model/bookingModel');
 const handlerFactory = require('./../controllers/handlerFactory');
 
 exports.set = (req, res, next) => {
   if (!req.body.tour) req.body.tour = req.params.tourId;
   if (!req.body.user) req.body.user = req.user.id;
   next();
+};
+exports.identify = async (req, res, next) => {
+  console.log(req.body.user);
+  console.log(req.body.tour);
+  const review = await Book.findOne({
+    user: req.body.user,
+    tour: req.body.tour
+  });
+  if (review) return next();
+  res.status(200).json({
+    status: 'Fail'
+  });
 };
 
 exports.createReview = handlerFactory.createOne(Review);

@@ -1,10 +1,14 @@
 const AppError = require('../utils/appError');
 const Tour = require('./../model/tourModel');
 const Book = require('./../model/bookingModel');
+const Review = require('./../model/reviewModel');
 
 const catchAsync = require('./../utils/catchAsync');
 const User = require('./../model/userModel');
-
+//渲染首頁
+/**
+ *獲得所有旅程
+ */
 exports.getOverview = catchAsync(async (req, res) => {
   const tours = await Tour.find();
   res.status(200).render('overview', {
@@ -12,12 +16,20 @@ exports.getOverview = catchAsync(async (req, res) => {
     tours
   });
 });
+//渲染首頁
+/**
+ *設置訂購成功
+ */
 exports.alerts = (req, res, next) => {
   const { alert } = req.query;
   console.log(alert);
-  if (alert === 'booking') res.locals.alert = `fkkfffk`;
+  if (alert === 'booking') res.locals.alert = `訂購成功`;
   next();
 };
+//渲染首頁
+/**
+ *獲得單獨旅程
+ */
 exports.getTour = async (req, res, next) => {
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
@@ -31,21 +43,38 @@ exports.getTour = async (req, res, next) => {
     tour
   });
 };
+//渲染首頁
+/**
+ *登入
+ */
 exports.getLogin = (req, res) => {
-  console.log('OK');
-  console.log('OK2');
-
   res.status(200).render('login', {
     title: 'log into'
   });
 };
+//渲染首頁
+/**
+ *註冊
+ */
+exports.getSignup = (req, res) => {
+  res.status(200).render('singup', {
+    title: 'your account'
+  });
+};
+//渲染首頁
+/**
+ *獲得帳戶資訊
+ */
 exports.getAccount = (req, res) => {
   res.status(200).render('account', {
     title: 'your account'
   });
 };
+//渲染首頁
+/**
+ *更新帳戶資訊
+ */
 exports.updateUserData = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     {
@@ -62,12 +91,31 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     user: updatedUser
   });
 });
+//渲染首頁
+/**
+ *獲得訂購旅程
+ */
 exports.getMyTours = async (req, res, next) => {
   const bookings = await Book.find({ user: req.user.id });
+  console.log(req.user.id);
+  console.log(bookings);
+
   const tourId = bookings.map(el => el.tour);
   const tours = await Tour.find({ _id: { $in: tourId } });
+  console.log(tours);
   res.status(200).render('overview', {
     title: 'My',
     tours
+  });
+};
+exports.getMyRivews = async (req, res) => {
+  console.log(req.user.id);
+  const reviews = await Review.find({
+    user: '5c8a1dfa2f8fb814b56fa181'
+  });
+  console.log(reviews);
+  res.render('review', {
+    title: 'review',
+    reviews
   });
 };

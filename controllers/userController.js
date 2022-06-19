@@ -28,6 +28,7 @@ const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter
 });
+//更新使用者圖像
 exports.uploadUserPhoto = upload.single('photo');
 exports.resizeUserPhoto = async (req, res, next) => {
   if (!req.file) {
@@ -45,6 +46,13 @@ exports.resizeUserPhoto = async (req, res, next) => {
   console.log(req.file.filename);
   next();
 };
+/**
+ *
+ * @param {*} obj
+ * @param  {...any} allowedFelds
+ * @returns
+ * 過濾物件 確保安全
+ */
 const filterObj = (obj, ...allowedFelds) => {
   const newObj = {};
   Object.keys(obj).forEach(el => {
@@ -52,11 +60,27 @@ const filterObj = (obj, ...allowedFelds) => {
   });
   return newObj;
 };
+
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ *
+ * 得到使用者id
+ */
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ *
+ * 更新使用者資訊
+ */
 exports.updateMe = async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError(`OH NOT THIS ROW`, 400));
@@ -75,6 +99,14 @@ exports.updateMe = async (req, res, next) => {
     }
   });
 };
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ *
+ * 刪除使用者
+ */
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
   res.status(200).json({

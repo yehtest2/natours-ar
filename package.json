@@ -25,6 +25,7 @@
     "express": "^4.17.2",
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^6.2.1",
+    "express-session": "^1.17.3",
     "helmet": "^5.0.2",
     "hpp": "^0.2.3",
     "html-to-text": "^8.2.0",

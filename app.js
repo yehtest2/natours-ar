@@ -10,6 +10,7 @@ const compression = require('compression');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const hpp = require('hpp');
 
@@ -29,18 +30,32 @@ app.set('view engine', 'pug');
 app.set('view options', path.join(__dirname), 'views');
 // app.use(helmet());
 app.use(morgan('dev'));
+app.use(
+  session({
+    secret: process.env.SESSIONKEY,
+    name: 'user',
+    saveUninitialized: true,
+    cookie: { maxAge: 1000000 }
+  })
+);
+/**
+ * 確認收款狀況
+ */
 app.post(
   '/checkmy',
   express.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
 );
 
+//限制封包大小
 app.use(express.json({ limit: '16kb' }));
+
 app.use(express.urlencoded({ extend: true, limit: '16kb' }));
 
 app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp({ whitelist: ['price'] }));
+//預設
 app.use(express.static(`${__dirname}/public`));
 app.use(cookieParser());
 app.use(cors());
@@ -52,8 +67,6 @@ app.use(compression());
 // };
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log('fast');
-  console.log(req.cookies.jwt);
   next();
 });
 const limiter = rateLimit({
@@ -63,6 +76,7 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
+app.post('/webhook-Checkout', bookingController.webhookCheckout);
 app.use('/', viewRouter);
 app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);

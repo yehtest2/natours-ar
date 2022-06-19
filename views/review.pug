@@ -1,0 +1,9 @@
+extends base
+block append head 
+
+include _reviewCard
+block content
+  main.main
+    .reviewchange
+      each review in reviews 
+        +reviewCard(review)
