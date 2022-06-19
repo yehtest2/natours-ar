@@ -41,16 +41,12 @@ app.use(
 /**
  * 確認收款狀況
  */
-app.post(
-  '/checkmy',
-  express.raw({ type: 'application/json' }),
-  bookingController.webhookCheckout
-);
 
 //限制封包大小
 app.use(express.json({ limit: '16kb' }));
 
 app.use(express.urlencoded({ extend: true, limit: '16kb' }));
+app.post('/checkmy', bookingController.webhookCheckout);
 
 app.use(mongoSanitize());
 app.use(xss());
