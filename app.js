@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
@@ -48,7 +50,7 @@ app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extend: true, limit: '16kb' }));
 app.post(
   '/checkmy',
-  express.raw({ type: '*/*' }),
+  bodyParser.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
 );
 
