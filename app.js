@@ -74,7 +74,7 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 app.post(
   '/webhook-Checkout',
-  express.raw({ type: 'application/json' }),
+  express.raw({ type: '*/*' }),
   bookingController.webhookCheckout
 );
 app.use('/', viewRouter);
