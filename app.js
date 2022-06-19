@@ -72,7 +72,11 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
-app.post('/webhook-Checkout', bookingController.webhookCheckout);
+app.post(
+  '/webhook-Checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 app.use('/', viewRouter);
 app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);
