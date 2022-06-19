@@ -46,7 +46,11 @@ app.use(
 app.use(express.json({ limit: '16kb' }));
 
 app.use(express.urlencoded({ extend: true, limit: '16kb' }));
-app.post('/checkmy', bookingController.webhookCheckout);
+app.post(
+  '/checkmy',
+  express.raw({ type: '*/*' }),
+  bookingController.webhookCheckout
+);
 
 app.use(mongoSanitize());
 app.use(xss());
@@ -61,6 +65,11 @@ app.use(compression());
 //   credentials: true, //access-control-allow-credentials:true
 //   optionSuccessStatus: 200
 // };
+app.post(
+  '/webhook-Checkout',
+  express.raw({ type: '*/*' }),
+  bookingController.webhookCheckout
+);
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
@@ -72,11 +81,7 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
-app.post(
-  '/webhook-Checkout',
-  express.raw({ type: '*/*' }),
-  bookingController.webhookCheckout
-);
+
 app.use('/', viewRouter);
 app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);
