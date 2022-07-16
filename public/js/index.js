@@ -46,6 +46,8 @@ if (logOutBtn) logOutBtn.addEventListener('click', logout);
 if (updatefrom)
   updatefrom.addEventListener('submit', function(e) {
     e.preventDefault();
+    document.querySelector('.btn--save-password').textContent = 'Updating....';
+
     const form = new FormData();
     form.append('email', document.getElementById('email').value);
     form.append('name', document.getElementById('name').value);

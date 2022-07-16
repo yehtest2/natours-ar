@@ -22,6 +22,13 @@ module.exports = class Email {
         pass: process.env.EMAIL_PASSWORD
       }
     });
+    //   return nodemailer.createTransport({
+    //     service: 'Gmail',
+    //     auth: {
+    //       user: 'yeahjason496@gmail.com',
+    //       pass: '******'
+    //     }
+    //   });
   }
 
   async send(template, subject) {

@@ -3,12 +3,6 @@ import axios from 'axios';
 import { showAlert } from './alert';
 export const login = async (email, password) => {
   try {
-    console.log(email);
-    console.log('12345');
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/v1/users/login', true);
-    xhr.withCredentials = true;
-    xhr.send(null);
     const res = await axios({
       method: 'POST',
       url: '/api/v1/users/login',

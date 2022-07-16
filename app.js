@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
-// const helmet = require('helmet');
+const helmet = require('helmet');
 
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -30,7 +30,7 @@ const bookingController = require('./controllers/bookingController');
 const app = express();
 app.set('view engine', 'pug');
 app.set('view options', path.join(__dirname), 'views');
-// app.use(helmet());
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(
   session({
@@ -67,11 +67,6 @@ app.use(compression());
 //   credentials: true, //access-control-allow-credentials:true
 //   optionSuccessStatus: 200
 // };
-app.post(
-  '/webhook-Checkout',
-  express.raw({ type: '*/*' }),
-  bookingController.webhookCheckout
-);
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();

@@ -126,6 +126,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   //解碼
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   //是否是新的使用者
+  console.log(decoded);
   const freshUser = await User.findById(decoded.id);
   if (!freshUser) {
     return next(
@@ -150,13 +151,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
-      console.log('wwddowoow');
-      console.log(req.session.user);
-      if (req.session.user) {
-        console.log('OK');
-      }
-      console.log('wwddowoow');
-
       //解碼
       const decoded = await promisify(jwt.verify)(
         req.cookies.jwt,
@@ -235,6 +229,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   } catch (err) {
     user.createPasswordResetToken = undefined;
     user.createPasswordResetExpires = undefined;
+
     await user.save({ validateBeforeSave: false });
 
     return next(
@@ -258,9 +253,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   }
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
-  user.PasswordResetToken = undefined;
-  user.PasswordResetExpires = undefined;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
   await user.save();
+
   createSendToken(user, 200, res);
 });
 /**

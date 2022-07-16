@@ -14,9 +14,10 @@ exports.identify = async (req, res, next) => {
     user: req.body.user,
     tour: req.body.tour
   });
+  console.log(review);
   if (review) return next();
   res.status(200).json({
-    status: 'Fail'
+    status: 'No success'
   });
 };
 

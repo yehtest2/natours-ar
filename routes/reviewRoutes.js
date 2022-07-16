@@ -11,7 +11,7 @@ router
   .route('/')
   .get(reviewController.getAllReviews)
   .post(
-    authController.restricTo('user'),
+    authController.restricTo('user', 'admin'),
     reviewController.set,
     reviewController.identify,
     reviewController.createReview

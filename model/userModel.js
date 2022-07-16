@@ -60,6 +60,7 @@ userSchema.pre('save', async function(next) {
   //加密
   this.password = await bcrypt.hash(this.password, 13);
   //存驗證密碼正確性
+
   this.passwordConfirm = undefined;
   next();
 });

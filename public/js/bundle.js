@@ -11172,19 +11172,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var login = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
-    var xhr, res;
+    var res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            console.log(email);
-            console.log('12345');
-            xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/v1/users/login', true);
-            xhr.withCredentials = true;
-            xhr.send(null);
-            _context.next = 9;
+            _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
               url: '/api/v1/users/login',
@@ -11194,7 +11188,7 @@ var login = /*#__PURE__*/function () {
               }
             });
 
-          case 9:
+          case 3:
             res = _context.sent;
             console.log(res.data.token);
 
@@ -11205,20 +11199,20 @@ var login = /*#__PURE__*/function () {
               }, 1500);
             }
 
-            _context.next = 17;
+            _context.next = 11;
             break;
 
-          case 14:
-            _context.prev = 14;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             (0, _alert.showAlert)('error', _context.t0.response.data.message);
 
-          case 17:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 14]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function login(_x, _x2) {
@@ -11765,6 +11759,7 @@ if (SignForm) {
 if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
 if (updatefrom) updatefrom.addEventListener('submit', function (e) {
   e.preventDefault();
+  document.querySelector('.btn--save-password').textContent = 'Updating....';
   var form = new FormData();
   form.append('email', document.getElementById('email').value);
   form.append('name', document.getElementById('name').value);
@@ -11856,7 +11851,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54711" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52101" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
